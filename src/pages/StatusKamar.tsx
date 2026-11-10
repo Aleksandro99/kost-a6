@@ -17,6 +17,7 @@ import {
   ArrowUpTrayIcon,
 } from '@heroicons/react/24/solid'
 import { useNavigate } from 'react-router-dom'
+import { appUrl } from '../lib/piket'
 
 interface Room {
   id: number
@@ -283,7 +284,7 @@ export default function StatusKamar() {
     if (!room.tenant_phone) return alert('Nomor HP penghuni belum diisi!')
     const phone = normalizePhone(room.tenant_phone)
     const isLate = new Date().getDate() > 10 ? 'Mengingat sekarang sudah lewat tanggal 10, ' : ''
-    const message = `Halo ${room.tenant_name} 👋,\n\nSekadar mengingatkan, tagihan kost kamar *${room.room_number}* bulan ini sebesar *${formatRupiah(room.price)}* belum lunas.\n\n${isLate}Mohon segera melakukan pembayaran ya.\n Bayar langsung atau tf kunjungi \n 👉 https://kosta6.vercel.app/ \nTerima kasih 🙏\n\n\nViktorius (KOST A6)`
+    const message = `Halo ${room.tenant_name} 👋,\n\nSekadar mengingatkan, tagihan kost kamar *${room.room_number}* bulan ini sebesar *${formatRupiah(room.price)}* belum lunas.\n\n${isLate}Mohon segera melakukan pembayaran ya.\n Bayar langsung atau tf kunjungi \n 👉 ${appUrl} \nTerima kasih 🙏\n\n\nViktorius (KOST A6)`
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank')
   }
 
