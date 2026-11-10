@@ -5,7 +5,8 @@ import {
   HomeModernIcon, 
   PencilSquareIcon, 
   ArrowRightOnRectangleIcon,
-  BookOpenIcon 
+  BookOpenIcon,
+  SparklesIcon
 } from '@heroicons/react/24/solid'
 
 // Import Halaman
@@ -13,6 +14,7 @@ import Login from './pages/Login'
 import AdminInput from './pages/AdminInput'
 import LaporanBulanan from './pages/LaporanBulanan'
 import StatusKamar from './pages/StatusKamar'
+import Piket from './pages/Piket'
 
 // PERBAIKAN 1: Tambahkan 's' di akhir (ManageUsers) sesuaikan dengan nama file asli
 import ManageUsers from './pages/ManageUsers' 
@@ -72,6 +74,7 @@ function App() {
                 {/* Laporan hanya untuk admin */}
                 {user.role === 'admin' && <DesktopLink to="/laporan" label="Laporan" />}
                 <DesktopLink to="/status-kamar" label="Status Kamar" />
+                <DesktopLink to="/piket" label="Piket" />
                 <DesktopLink to="/peraturan" label="Tata Tertib" />
                 
                 {user.role === 'admin' && (
@@ -121,6 +124,8 @@ function App() {
             />
             <Route path="/status-kamar" element={<StatusKamar />} />
             <Route path="/status-kost" element={<Navigate to="/status-kamar" replace />} />
+            <Route path="/piket" element={<Navigate to="/piket/sampah" replace />} />
+            <Route path="/piket/:tab" element={<Piket />} />
             <Route path="/peraturan" element={<Peraturan />} />
             
             <Route 
@@ -150,6 +155,10 @@ function App() {
                 <HomeModernIcon className="w-6 h-6 mb-0.5" />
               </MobileLink>
 
+              <MobileLink to="/piket" label="Piket">
+                <SparklesIcon className="w-6 h-6 mb-0.5" />
+              </MobileLink>
+
               <MobileLink to="/peraturan" label="Aturan">
                 <BookOpenIcon className="w-6 h-6 mb-0.5" />
               </MobileLink>
@@ -170,7 +179,7 @@ function App() {
 // --- Helper Components ---
 function DesktopLink({ to, label }: { to: string, label: string }) {
   const location = useLocation()
-  const isActive = location.pathname === to || (to === '/admin' && location.pathname === '/manage-users')
+  const isActive = location.pathname === to || location.pathname.startsWith(to + '/') || (to === '/admin' && location.pathname === '/manage-users')
   
   return (
     <Link 
@@ -186,7 +195,7 @@ function DesktopLink({ to, label }: { to: string, label: string }) {
 
 function MobileLink({ to, label, children }: { to: string, label: string, children: React.ReactNode }) {
   const location = useLocation()
-  const isActive = location.pathname === to || (to === '/admin' && location.pathname === '/manage-users')
+  const isActive = location.pathname === to || location.pathname.startsWith(to + '/') || (to === '/admin' && location.pathname === '/manage-users')
   
   return (
     <Link 
